@@ -1,5 +1,8 @@
+from importlib.metadata import pass_none
+
 import cv2 as cv
 import numpy as np
+import time
 
 
 def zmanjsaj_sliko(slika, sirina, visina):
@@ -28,15 +31,44 @@ def doloci_barvo_koze(slika, levo_zgoraj, desno_spodaj) -> tuple:
       Način izračuna je prepuščen vaši domišljiji.'''
     pass
 
+def narisi_skatle(slika, rezultat, sirina_skatle, visina_skatle, prag=300):
+    pass
+
+def izracunaj_fps(start_time, frame_count):
+    pass
+
+def narisi_modri_okvir(slika, levo_zgoraj, desno_spodaj):
+    pass
 
 if __name__ == '__main__':
     # Pripravi kamero
+    kamera = cv.VideoCapture(0)
+    start_time = time.time()
+    frame_count = 0
+    barva_koze = None
 
+    sirina_slike = 340
+    visina_slike = 220
+
+    sirina_skatle = 100
+    visina_skatle = 100
+
+    levo_zgoraj = ((sirina_slike - sirina_skatle) // 2, (visina_slike - visina_skatle) // 2)
+    desno_spodaj = (levo_zgoraj[0] + sirina_skatle, levo_zgoraj[1] + visina_skatle)
+    while True:
     # Zajami prvo sliko iz kamere
-
+        ret, slika = kamera.read()
+        if not ret:
+            break
     # Izračunamo barvo kože na prvi sliki
 
     # Zajemaj slike iz kamere in jih obdeluj
+
+
+
+
+
+
 
     # Označi območja (škatle), kjer se nahaja obraz (kako je prepuščeno vaši domišljiji)
     # Vprašanje 1: Kako iz števila pikslov iz vsake škatle določiti celotno območje obraza (Floodfill)?
