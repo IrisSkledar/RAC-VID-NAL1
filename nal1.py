@@ -21,7 +21,9 @@ def obdelaj_sliko_s_skatlami(slika, sirina_skatle, visina_skatle, barva_koze) ->
 
 def prestej_piklse_z_barvo_koze(slika, barva_koze) -> int:
     '''Prestej število pikslov z barvo kože v škatli.'''
-    pass
+    spodnja_meja, zgornja_meja = barva_koze
+    maska = cv.inRange(slika, spodnja_meja, zgornja_meja)  # Ustvarimo masko za barvo kože
+    return cv.countNonZero(maska)  # Štejemo število pikslov, ki ustrezajo barvi kože
 
 
 def doloci_barvo_koze(slika, levo_zgoraj, desno_spodaj) -> tuple:
