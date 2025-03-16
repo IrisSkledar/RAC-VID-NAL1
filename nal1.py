@@ -1,4 +1,3 @@
-from importlib.metadata import pass_none
 
 import cv2 as cv
 import numpy as np
@@ -46,6 +45,7 @@ if __name__ == '__main__':
     start_time = time.time()
     frame_count = 0
     barva_koze = None
+    # Izračunamo barvo kože na prvi sliki
 
     sirina_slike = 340
     visina_slike = 220
@@ -60,7 +60,10 @@ if __name__ == '__main__':
         ret, slika = kamera.read()
         if not ret:
             break
-    # Izračunamo barvo kože na prvi sliki
+
+        # Zmanjšaj sliko na ustrezno velikost
+        slika = zmanjsaj_sliko(slika, sirina_slike, visina_slike)
+
 
     # Zajemaj slike iz kamere in jih obdeluj
 
