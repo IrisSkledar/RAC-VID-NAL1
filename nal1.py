@@ -7,7 +7,7 @@ import time
 
 def zmanjsaj_sliko(slika, sirina, visina):
     '''Zmanjšaj sliko na velikost sirina x visina.'''
-    pass
+    return cv.resize(slika, (sirina, visina), interpolation=cv.INTER_AREA) #INTER_AREA metoda za boljše zmanjšanje slik z detajli
 
 
 def obdelaj_sliko_s_skatlami(slika, sirina_skatle, visina_skatle, barva_koze) -> list:
