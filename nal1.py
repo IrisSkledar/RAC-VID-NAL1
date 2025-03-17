@@ -1,4 +1,3 @@
-from importlib.metadata import pass_none
 
 import cv2 as cv
 import numpy as np
@@ -45,7 +44,16 @@ def doloci_barvo_koze(slika, levo_zgoraj, desno_spodaj) -> tuple:
     pass
 
 def narisi_skatle(slika, rezultat, sirina_skatle, visina_skatle, prag=300):
-    pass
+    '''Nariši pravokotnike na območjih z veliko kožnimi piksli.'''
+    for y, vrstica in enumerate(rezultat):
+        for x, st_pikslov in enumerate(vrstica):
+            if st_pikslov > prag:
+                zgoraj = y * visina_skatle
+                levo = x * sirina_skatle
+                cv.rectangle(slika, (levo, zgoraj),
+                             (levo + sirina_skatle, zgoraj + visina_skatle),
+                             (0, 255, 0), 2)
+
 
 def izracunaj_fps(start_time, frame_count):
     pass
@@ -83,8 +91,8 @@ if __name__ == '__main__':
         # Obdelava slike s škatlami in preštevanje pikslov kože
             rezultat = obdelaj_sliko_s_skatlami(slika, 10, 10, barva_koze)
 
-
-
+            # Nariši škatle z dovolj pikslov kože
+            narisi_skatle(slika, rezultat, 10, 10, prag=10)
 
     # Označi območja (škatle), kjer se nahaja obraz (kako je prepuščeno vaši domišljiji)
     # Vprašanje 1: Kako iz števila pikslov iz vsake škatle določiti celotno območje obraza (Floodfill)?
