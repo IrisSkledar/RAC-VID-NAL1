@@ -17,7 +17,20 @@ def obdelaj_sliko_s_skatlami(slika, sirina_skatle, visina_skatle, barva_koze) ->
     Primer: Če je v sliki 25 škatel, kjer je v vsaki vrstici 5 škatel, naj bo seznam oblike
       [[1,0,0,1,1],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,0,0,0,1]].
       V tem primeru je v prvi škatli 1 piksel kože, v drugi 0, v tretji 0, v četrti 1 in v peti 1.'''
-    pass
+
+    visina, sirina, _ = slika.shape
+    rezultat = []
+    for y in range(0, visina - visina_skatle, visina_skatle):  # Premikamo se po sliki
+        vrstica = []
+        for x in range(0, sirina - sirina_skatle, sirina_skatle):
+            # Izrežemo podsliko (škatlo)
+            skatla = slika[y:y + visina_skatle, x:x + sirina_skatle]
+            # Preštejemo piksle kože v tej škatli
+            st_koza = prestej_piklse_z_barvo_koze(skatla, barva_koze)
+            vrstica.append(st_koza)
+        rezultat.append(vrstica)
+
+    return rezultat
 
 
 def prestej_piklse_z_barvo_koze(slika, barva_koze) -> int:
@@ -66,6 +79,9 @@ if __name__ == '__main__':
 
 
 
+        if barva_koze is not None:  # Ko imamo določeno barvo kože
+        # Obdelava slike s škatlami in preštevanje pikslov kože
+            rezultat = obdelaj_sliko_s_skatlami(slika, 10, 10, barva_koze)
 
 
 
