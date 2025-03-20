@@ -29,7 +29,21 @@ def doloci_barvo_koze(slika, levo_zgoraj, desno_spodaj) -> tuple:
     '''Ta funkcija se kliče zgolj 1x na prvi sliki iz kamere.
     Vrne barvo kože v območju ki ga definira oklepajoča škatla (levo_zgoraj, desno_spodaj).
       Način izračuna je prepuščen vaši domišljiji.'''
-    pass
+    # Izrežemo območje, kjer bomo določili barvo kože
+    izrez = slika[levo_zgoraj[1]:desno_spodaj[1], levo_zgoraj[0]:desno_spodaj[0]]
+
+    # Izračunaj povprečno barvo v tem območju (BGR vrednosti) mean računa aritmetično sredino
+    povprecna_barva = np.mean(izrez, axis=(0, 1))  # Povprečne vrednosti po BGR kanalih
+
+    # Nastavimo meje okoli povprečne barve kože
+    spodnja_meja = np.array(
+        [max(0, povprecna_barva[0] - 10), max(0, povprecna_barva[1] - 10), max(0, povprecna_barva[2] - 10)],
+        dtype=np.uint8)
+    zgornja_meja = np.array(
+        [min(255, povprecna_barva[0] + 10), min(255, povprecna_barva[1] + 10), min(255, povprecna_barva[2] + 10)],
+        dtype=np.uint8)
+
+    return spodnja_meja, zgornja_meja
 
 def narisi_skatle(slika, rezultat, sirina_skatle, visina_skatle, prag=300):
     pass
@@ -60,16 +74,10 @@ if __name__ == '__main__':
         ret, slika = kamera.read()
         if not ret:
             break
-    # Izračunamo barvo kože na prvi sliki
-
-    # Zajemaj slike iz kamere in jih obdeluj
 
 
 
-
-
-
-
+       
     # Označi območja (škatle), kjer se nahaja obraz (kako je prepuščeno vaši domišljiji)
     # Vprašanje 1: Kako iz števila pikslov iz vsake škatle določiti celotno območje obraza (Floodfill)?
     # Vprašanje 2: Kako prešteti število ljudi?
