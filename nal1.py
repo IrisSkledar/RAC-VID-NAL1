@@ -75,9 +75,22 @@ if __name__ == '__main__':
         if not ret:
             break
 
+        if barva_koze is None:  # Samo prvič, ko določimo barvo kože
+            # Nariši modri okvir okoli območja za določitev barve kože
+            narisi_modri_okvir(slika, levo_zgoraj, desno_spodaj)
 
+            # Ko pritisnemo 's', določimo barvo kože v območju
+            if cv.waitKey(1) & 0xFF == ord('s'):
+                barva_koze = doloci_barvo_koze(slika, levo_zgoraj, desno_spodaj)
+                print("Barva kože določena:", barva_koze)
 
-       
+        if barva_koze is not None:  # Ko imamo določeno barvo kože
+            # Obdelava slike s škatlami in preštevanje pikslov kože
+            rezultat = obdelaj_sliko_s_skatlami(slika, 10, 10, barva_koze)
+
+            # Nariši škatle z dovolj pikslov kože
+            narisi_skatle(slika, rezultat, 10, 10, prag=10)
+
     # Označi območja (škatle), kjer se nahaja obraz (kako je prepuščeno vaši domišljiji)
     # Vprašanje 1: Kako iz števila pikslov iz vsake škatle določiti celotno območje obraza (Floodfill)?
     # Vprašanje 2: Kako prešteti število ljudi?
