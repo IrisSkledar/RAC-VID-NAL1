@@ -35,7 +35,11 @@ def narisi_skatle(slika, rezultat, sirina_skatle, visina_skatle, prag=300):
     pass
 
 def izracunaj_fps(start_time, frame_count):
-    pass
+    '''Izračunaj FPS na podlagi časa in števila sličic.'''
+    if frame_count == 0:
+        return 0
+    fps = frame_count / (time.time() - start_time)
+    return fps
 
 def narisi_modri_okvir(slika, levo_zgoraj, desno_spodaj):
     pass
