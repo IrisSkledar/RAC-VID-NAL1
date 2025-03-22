@@ -68,16 +68,27 @@ if __name__ == '__main__':
 
     # Zajemaj slike iz kamere in jih obdeluj
 
+            # Izračunaj FPS
+            frame_count += 1
+            fps = izracunaj_fps(start_time, frame_count)
 
+            # Dodaj FPS oznako na sliko
+            cv.putText(slika, f'FPS: {fps:.2f}', (10, 30), cv.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
 
+            # Prikaz slike
+            cv.imshow("Detekcija obraza", slika)
 
+            # Prekini z ESC
+            if cv.waitKey(1) & 0xFF == 27:
+                break
 
-
-
+    # Zapri kamero in okna
+    kamera.release()
+    cv.destroyAllWindows()
     # Označi območja (škatle), kjer se nahaja obraz (kako je prepuščeno vaši domišljiji)
     # Vprašanje 1: Kako iz števila pikslov iz vsake škatle določiti celotno območje obraza (Floodfill)?
     # Vprašanje 2: Kako prešteti število ljudi?
 
     # Kako velikost prebirne škatle vpliva na hitrost algoritma in točnost detekcije? Poigrajte se s parametroma velikost_skatle
     # in ne pozabite, da ni nujno da je škatla kvadratna.
-    pass
+    
