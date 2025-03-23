@@ -58,7 +58,11 @@ def narisi_skatle(slika, rezultat, sirina_skatle, visina_skatle, prag=300):
 
 
 def izracunaj_fps(start_time, frame_count):
-    pass
+    '''Izračunaj FPS na podlagi časa in števila sličic.'''
+    if frame_count == 0:
+        return 0
+    fps = frame_count / (time.time() - start_time)
+    return fps
 
 def narisi_modri_okvir(slika, levo_zgoraj, desno_spodaj):
     pass
@@ -87,18 +91,35 @@ if __name__ == '__main__':
 
         # Zmanjšaj sliko na ustrezno velikost
         slika = zmanjsaj_sliko(slika, sirina_slike, visina_slike)
+        # Zajemaj slike iz kamere in jih obdeluj
 
-
-    # Zajemaj slike iz kamere in jih obdeluj
 
 
 
         if barva_koze is not None:  # Ko imamo določeno barvo kože
-        # Obdelava slike s škatlami in preštevanje pikslov kože
+            # Obdelava slike s škatlami in preštevanje pikslov kože
             rezultat = obdelaj_sliko_s_skatlami(slika, 10, 10, barva_koze)
 
             # Nariši škatle z dovolj pikslov kože
             narisi_skatle(slika, rezultat, 10, 10, prag=10)
+
+        # Izračunaj FPS
+        frame_count += 1
+        fps = izracunaj_fps(start_time, frame_count)
+
+        # Dodaj FPS oznako na sliko
+        cv.putText(slika, f'FPS: {fps:.2f}', (10, 30), cv.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+
+    # Prikaz slike
+        cv.imshow("Detekcija obraza", slika)
+
+        # Prekini z ESC
+        if cv.waitKey(1) & 0xFF == 27:
+            break
+
+    # Zapri kamero in okna
+    kamera.release()
+    cv.destroyAllWindows()
 
     # Označi območja (škatle), kjer se nahaja obraz (kako je prepuščeno vaši domišljiji)
     # Vprašanje 1: Kako iz števila pikslov iz vsake škatle določiti celotno območje obraza (Floodfill)?
@@ -106,4 +127,4 @@ if __name__ == '__main__':
 
     # Kako velikost prebirne škatle vpliva na hitrost algoritma in točnost detekcije? Poigrajte se s parametroma velikost_skatle
     # in ne pozabite, da ni nujno da je škatla kvadratna.
-    pass
+    
