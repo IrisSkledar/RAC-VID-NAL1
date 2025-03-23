@@ -43,7 +43,21 @@ def doloci_barvo_koze(slika, levo_zgoraj, desno_spodaj) -> tuple:
     '''Ta funkcija se kliče zgolj 1x na prvi sliki iz kamere.
     Vrne barvo kože v območju ki ga definira oklepajoča škatla (levo_zgoraj, desno_spodaj).
       Način izračuna je prepuščen vaši domišljiji.'''
-    pass
+    # Izrežemo območje, kjer bomo določili barvo kože
+    izrez = slika[levo_zgoraj[1]:desno_spodaj[1], levo_zgoraj[0]:desno_spodaj[0]]
+
+    # Izračunaj povprečno barvo v tem območju (BGR vrednosti) mean računa aritmetično sredino
+    povprecna_barva = np.mean(izrez, axis=(0, 1))  # Povprečne vrednosti po BGR kanalih
+
+    # Nastavimo meje okoli povprečne barve kože
+    spodnja_meja = np.array(
+        [max(0, povprecna_barva[0] - 10), max(0, povprecna_barva[1] - 10), max(0, povprecna_barva[2] - 10)],
+        dtype=np.uint8)
+    zgornja_meja = np.array(
+        [min(255, povprecna_barva[0] + 10), min(255, povprecna_barva[1] + 10), min(255, povprecna_barva[2] + 10)],
+        dtype=np.uint8)
+
+    return spodnja_meja, zgornja_meja
 
 def narisi_skatle(slika, rezultat, sirina_skatle, visina_skatle, prag=300):
     '''Nariši pravokotnike na območjih z veliko kožnimi piksli.'''
@@ -93,8 +107,14 @@ if __name__ == '__main__':
         slika = zmanjsaj_sliko(slika, sirina_slike, visina_slike)
         # Zajemaj slike iz kamere in jih obdeluj
 
+        if barva_koze is None:  # Samo prvič, ko določimo barvo kože
+            # Nariši modri okvir okoli območja za določitev barve kože
+            narisi_modri_okvir(slika, levo_zgoraj, desno_spodaj)
 
-
+            # Ko pritisnemo 's', določimo barvo kože v območju
+            if cv.waitKey(1) & 0xFF == ord('s'):
+                barva_koze = doloci_barvo_koze(slika, levo_zgoraj, desno_spodaj)
+                print("Barva kože določena:", barva_koze)
 
         if barva_koze is not None:  # Ko imamo določeno barvo kože
             # Obdelava slike s škatlami in preštevanje pikslov kože
