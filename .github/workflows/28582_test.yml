@@ -1,0 +1,56 @@
+name: 28582_test
+
+on: [push, pull_request]
+
+jobs:
+  check_tests:
+    runs-on: ubuntu-latest
+    outputs:
+      tests_exist: ${{ steps.check.outputs.tests_exist }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Check if any test files exist
+        id: check
+        run: |
+          if ls test_*.py 1> /dev/null 2>&1; then
+            echo "tests_exist=true" >> $GITHUB_OUTPUT
+          else
+            echo "Ni najdenih testnih datotek." > napaka.txt
+            echo "tests_exist=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Upload napaka.txt if no tests
+        if: steps.check.outputs.tests_exist == 'false'
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-error
+          path: napaka.txt
+
+  run_tests:
+    needs: check_tests
+    if: needs.check_tests.outputs.tests_exist == 'true'
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: [3.8, 3.9, 3.10]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy opencv-python pytest
+
+      - name: Run tests with pytest
+        run: pytest
+
