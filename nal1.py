@@ -136,7 +136,7 @@ if __name__ == '__main__':
     # Zapri kamero in okna
     kamera.release()
     cv.destroyAllWindows()
-    #^^^^Označi območja (škatle), kjer se nahaja obraz (kako je prepuščeno vaši domišljiji)
+    #^Označi območja (škatle), kjer se nahaja obraz (kako je prepuščeno vaši domišljiji)
 
         #Vprašanje 1: Kako iz števila pikslov iz vsake škatle določiti celotno območje obraza (Floodfill)?
     #funkcija obdelaj_sliko_s_skatlami, kjer se slika razdeli na neprekrivajoče pravokotnike (škatle) določene velikosti (npr. 10x10 pikslov).
@@ -151,5 +151,4 @@ if __name__ == '__main__':
 
         #Kako velikost prebirne škatle vpliva na hitrost algoritma in točnost detekcije? Poigrajte se s parametroma velikost_skatle
     # Manjša škatla = večja natančnost, počasnejši algoritem; večja škatla = hitrejši alg., slabša natančnost
-
         #in ne pozabite, da ni nujno da je škatla kvadratna.
