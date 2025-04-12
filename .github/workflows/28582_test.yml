@@ -52,5 +52,4 @@ jobs:
           pip install numpy opencv-python pytest
 
       - name: Run tests with pytest
-        run: pytest
-
+        run: pytest tests/test_nal1.py

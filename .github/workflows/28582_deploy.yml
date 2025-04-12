@@ -28,4 +28,4 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: yourdockerhubusername/ime_tvoje_aplikacije:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/ime_tvoje_aplikacije:${{ github.sha }}
