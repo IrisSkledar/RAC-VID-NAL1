@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   check_tests:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     outputs:
       tests_exist: ${{ steps.check.outputs.tests_exist }}
     steps:
@@ -31,7 +31,7 @@ jobs:
   run_tests:
     needs: check_tests
     if: needs.check_tests.outputs.tests_exist == 'true'
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     strategy:
       matrix:
