@@ -23,7 +23,7 @@ jobs:
 
       - name: Upload napaka.txt if no tests
         if: steps.check.outputs.tests_exist == 'false'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-error
           path: napaka.txt
